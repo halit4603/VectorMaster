@@ -347,11 +347,31 @@ public class VectorMasterDrawable extends Drawable {
         }
         return null;
     }
+    
+    /**
+     * Return all {@link GroupModel} objects with the same name
+     *
+     * @return non-null array of matches
+     */
+    public ArrayList<GroupModel> getAllGroupModelsByName(String name) {
+        ArrayList<GroupModel> gModels = new ArrayList<>();
+        GroupModel gModel;
+        for (GroupModel groupModel : vectorModel.getGroupModels()) {
+            if (groupModel.getName() != null && groupModel.getName().equals(name)) {
+                gModels.add(groupModel);
+            } else {
+                gModel = groupModel.getGroupModelByName(name);
+                if (gModel != null)
+                    gModels.add(gModel);
+            }
+        }
+        return gModels;
+    }
 
     public GroupModel getGroupModelByName(String name) {
         GroupModel gModel;
         for (GroupModel groupModel : vectorModel.getGroupModels()) {
-            if (groupModel.getName().equals(name)) {
+            if (groupModel.getName() != null && groupModel.getName().equals(name)) {
                 return groupModel;
             } else {
                 gModel = groupModel.getGroupModelByName(name);
@@ -362,31 +382,76 @@ public class VectorMasterDrawable extends Drawable {
         return null;
     }
 
+    /**
+     * Return all {@link PathModel} objects with the same name
+     *
+     * @return non-null array of matches
+     */
+    @NonNull
+    public ArrayList<PathModel> getAllPathModelsByName(String name) {
+        ArrayList<PathModel> pModels = new ArrayList<>();
+        PathModel pModel = null;
+
+        for (PathModel pathModel : vectorModel.getPathModels()) {
+            if (pathModel.getName() != null && pathModel.getName().equals(name)) {
+                pModels.add(pathModel);
+            }
+        }
+        for (GroupModel groupModel : vectorModel.getGroupModels()) {
+            pModel = groupModel.getPathModelByName(name);
+            if (pModel != null && pModel.getName() != null && pModel.getName().equals(name))
+                pModels.add(pModel);
+        }
+        return pModels;
+    }
+
     public PathModel getPathModelByName(String name) {
         PathModel pModel = null;
         for (PathModel pathModel : vectorModel.getPathModels()) {
-            if (pathModel.getName().equals(name)) {
+            if (pathModel.getName() != null && pathModel.getName().equals(name)) {
                 return pathModel;
             }
         }
         for (GroupModel groupModel : vectorModel.getGroupModels()) {
             pModel = groupModel.getPathModelByName(name);
-            if (pModel != null && pModel.getName().equals(name))
+            if (pModel != null && pModel.getName() != null && pModel.getName().equals(name))
                 return pModel;
         }
         return pModel;
     }
 
+    /**
+     * Return all {@link ClipPathModel} objects with the same name
+     *
+     * @return non-null array of matches
+     */
+    @NonNull
+    public ArrayList<ClipPathModel> getAllClipPathModelsByName(String name) {
+        ArrayList<ClipPathModel> cModels = new ArrayList<>();
+        ClipPathModel cModel = null;
+        for (ClipPathModel clipPathModel : vectorModel.getClipPathModels()) {
+            if (clipPathModel.getName() != null && clipPathModel.getName().equals(name)) {
+                cModels.add(clipPathModel);
+            }
+        }
+        for (GroupModel groupModel : vectorModel.getGroupModels()) {
+            cModel = groupModel.getClipPathModelByName(name);
+            if (cModel != null && cModel.getName() != null && cModel.getName().equals(name))
+                cModels.add(cModel);
+        }
+        return cModels;
+    }
+
     public ClipPathModel getClipPathModelByName(String name) {
         ClipPathModel cModel = null;
         for (ClipPathModel clipPathModel : vectorModel.getClipPathModels()) {
-            if (clipPathModel.getName().equals(name)) {
+            if (clipPathModel.getName() != null && clipPathModel.getName().equals(name)) {
                 return clipPathModel;
             }
         }
         for (GroupModel groupModel : vectorModel.getGroupModels()) {
             cModel = groupModel.getClipPathModelByName(name);
-            if (cModel != null && cModel.getName().equals(name))
+            if (cModel != null && cModel.getName() != null && cModel.getName().equals(name))
                 return cModel;
         }
         return cModel;
